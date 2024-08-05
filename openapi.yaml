@@ -1,0 +1,255 @@
+openapi: 3.0.3
+info:
+  title: Book Store API
+  description: A simple API for managing books and authors in a book store.
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+    description: Production Server
+  - url: https://api.staging.example.com/v1
+    description: Staging Server
+paths:
+  /books:
+    get:
+      summary: List all books
+      description: Retrieve a list of all books in the store.
+      responses:
+        '200':
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Add a new book
+      description: Add a new book to the store.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /books/{bookId}:
+    get:
+      summary: Get a book
+      description: Retrieve information about a specific book.
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: The ID of the book to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+    put:
+      summary: Update a book
+      description: Update the details of a specific book.
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: The ID of the book to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '200':
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+    delete:
+      summary: Delete a book
+      description: Remove a book from the store.
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: The ID of the book to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Book deleted successfully
+        '404':
+          description: Book not found
+  /authors:
+    get:
+      summary: List all authors
+      description: Retrieve a list of all authors in the store.
+      responses:
+        '200':
+          description: A list of authors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+    post:
+      summary: Add a new author
+      description: Add a new author to the store.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInput'
+      responses:
+        '201':
+          description: Author created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+  /authors/{authorId}:
+    get:
+      summary: Get an author
+      description: Retrieve information about a specific author.
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: The ID of the author to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single author
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Author not found
+    put:
+      summary: Update an author
+      description: Update the details of a specific author.
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: The ID of the author to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInput'
+      responses:
+        '200':
+          description: Author updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Author not found
+    delete:
+      summary: Delete an author
+      description: Remove an author from the store.
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          description: The ID of the author to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Author deleted successfully
+        '404':
+          description: Author not found
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the book.
+        title:
+          type: string
+          description: The title of the book.
+        authorId:
+          type: string
+          description: The ID of the author of the book.
+        genre:
+          type: string
+          description: The genre of the book.
+        publishedDate:
+          type: string
+          format: date
+          description: The date the book was published.
+    BookInput:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the book.
+        authorId:
+          type: string
+          description: The ID of the author of the book.
+        genre:
+          type: string
+          description: The genre of the book.
+        publishedDate:
+          type: string
+          format: date
+          description: The date the book was published.
+    Author:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the author.
+        name:
+          type: string
+          description: The name of the author.
+        bio:
+          type: string
+          description: A brief biography of the author.
+        birthDate:
+          type: string
+          format: date
+          description: The birth date of the author.
+    AuthorInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the author.
+        bio:
+          type: string
+          description: A brief biography of the author.
+        birthDate:
+          type: string
+          format: date
+          description: The birth date of the author.
